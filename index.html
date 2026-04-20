@@ -27,8 +27,9 @@
     }
   </script>
   <style>
-    html,body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1rem;border-radius:.625rem;font-weight:600;font-size:.875rem;transition:all .15s ease;cursor:pointer;border:none}
+    html,body{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    body{max-width:100vw}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.625rem 1rem;border-radius:.625rem;font-weight:600;font-size:.875rem;transition:all .15s ease;cursor:pointer;border:none;white-space:nowrap}
     .btn-primary{background:#f97316;color:#fff}.btn-primary:hover{background:#ea580c}
     .btn-secondary{background:#fff;color:#0f172a;border:1px solid #e2e8f0}.btn-secondary:hover{background:#f8fafc;border-color:#cbd5e1}
     .btn-ghost{background:transparent;color:#64748b}.btn-ghost:hover{background:#f1f5f9;color:#0f172a}
@@ -37,9 +38,15 @@
     .input:focus,.select:focus,.textarea:focus{outline:none;border-color:#f97316;box-shadow:0 0 0 3px rgba(249,115,22,.15)}
     .label{display:block;font-size:.8125rem;font-weight:600;color:#334155;margin-bottom:.375rem}
     .card{background:#fff;border:1px solid #e2e8f0;border-radius:.875rem;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-    .pill{display:inline-flex;align-items:center;gap:.25rem;padding:.125rem .5rem;border-radius:999px;font-size:.75rem;font-weight:600}
-    .tab{padding:.75rem .25rem;font-weight:500;font-size:.9375rem;color:#64748b;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s}
+    .pill{display:inline-flex;align-items:center;gap:.25rem;padding:.125rem .5rem;border-radius:999px;font-size:.75rem;font-weight:600;white-space:nowrap}
+    .tab{padding:.75rem .25rem;font-weight:500;font-size:.9375rem;color:#64748b;border-bottom:2px solid transparent;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
     .tab:hover{color:#0f172a}.tab.active{color:#ea580c;border-bottom-color:#f97316}
+    [data-logo] svg{max-width:100%;height:auto;display:block}
+    @media (max-width: 640px){
+      [data-logo] svg{width:150px;height:32px}
+      .btn{padding:.5rem .75rem;font-size:.8125rem}
+      h1{word-break:break-word;overflow-wrap:break-word;hyphens:auto}
+    }
     .switch{position:relative;display:inline-block;width:36px;height:20px}
     .switch input{opacity:0;width:0;height:0}
     .slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;border-radius:999px;transition:.2s}
@@ -77,32 +84,33 @@
 <!-- ================ VIEW: LANDING ================ -->
 <div id="view-landing" class="min-h-screen">
   <header class="border-b border-ink-100 bg-white">
-    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div data-logo></div>
-      <div class="flex items-center gap-2">
-        <button class="btn btn-ghost" onclick="openLogin()">Se connecter</button>
-        <button class="btn btn-primary" onclick="openLogin('register')">Essayer gratuitement</button>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <div data-logo class="shrink-0"></div>
+      <div class="flex items-center gap-1 sm:gap-2">
+        <button class="btn btn-ghost hidden sm:inline-flex" onclick="openLogin()">Se connecter</button>
+        <button class="btn btn-ghost sm:hidden" onclick="openLogin()">Connexion</button>
+        <button class="btn btn-primary" onclick="openLogin('register')"><span class="hidden sm:inline">Essayer gratuitement</span><span class="sm:hidden">Essai gratuit</span></button>
       </div>
     </div>
   </header>
-  <section class="max-w-6xl mx-auto px-6 py-20">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-20">
+    <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
       <div>
         <span class="pill bg-brand-50 text-brand-700 mb-4">Nouveau · 100% conforme RGPD</span>
-        <h1 class="text-5xl font-bold tracking-tight text-ink-900 leading-tight">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink-900 leading-tight">
           Qualifiez vos candidats locataires <span class="text-brand-500">automatiquement</span>.
         </h1>
-        <p class="mt-5 text-lg text-ink-500 leading-relaxed">
+        <p class="mt-4 sm:mt-5 text-base sm:text-lg text-ink-500 leading-relaxed">
           Un seul lien à partager. Vos candidats voient toutes vos annonces, postulent, et vous recevez des dossiers pré-scorés. Vous gardez la décision finale.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
+        <div class="mt-6 sm:mt-8 flex flex-wrap gap-3">
           <button class="btn btn-primary" onclick="openLogin('register')">Commencer maintenant</button>
           <button class="btn btn-secondary" onclick="loadDemoAgency()">Voir une démo</button>
         </div>
-        <div class="mt-10 grid grid-cols-3 gap-6 text-sm">
-          <div><div class="text-2xl font-bold text-ink-900">−87%</div><div class="text-ink-500">de temps sur le tri</div></div>
-          <div><div class="text-2xl font-bold text-ink-900">100%</div><div class="text-ink-500">RGPD-conforme</div></div>
-          <div><div class="text-2xl font-bold text-ink-900">0€</div><div class="text-ink-500">le 1er mois</div></div>
+        <div class="mt-8 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-6 text-sm">
+          <div><div class="text-xl sm:text-2xl font-bold text-ink-900">−87%</div><div class="text-xs sm:text-sm text-ink-500">de temps sur le tri</div></div>
+          <div><div class="text-xl sm:text-2xl font-bold text-ink-900">100%</div><div class="text-xs sm:text-sm text-ink-500">RGPD-conforme</div></div>
+          <div><div class="text-xl sm:text-2xl font-bold text-ink-900">0€</div><div class="text-xs sm:text-sm text-ink-500">le 1er mois</div></div>
         </div>
       </div>
       <div class="card p-2">
@@ -130,8 +138,8 @@
       </div>
     </div>
   </section>
-  <footer class="border-t border-ink-100 mt-20">
-    <div class="max-w-6xl mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-ink-500">
+  <footer class="border-t border-ink-100 mt-12 sm:mt-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col md:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-ink-500 text-center md:text-left">
       <div data-logo></div>
       <div>© 2026 immoQual — Données hébergées en France · RGPD</div>
     </div>
@@ -170,18 +178,18 @@
 <!-- ================ VIEW: AGENCY DASHBOARD ================ -->
 <div id="view-agency" hidden class="min-h-screen">
   <header class="border-b border-ink-100 bg-white sticky top-0 z-10">
-    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div class="flex items-center gap-6">
-        <div data-logo></div>
-        <span class="text-sm text-ink-500 hidden md:inline" id="agency-name-header"></span>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-4 sm:gap-6 min-w-0">
+        <div data-logo class="shrink-0"></div>
+        <span class="text-sm text-ink-500 hidden lg:inline truncate" id="agency-name-header"></span>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="pill bg-emerald-100 text-emerald-700">● En ligne</span>
-        <button class="btn btn-ghost text-sm" onclick="logout()">Déconnexion</button>
+      <div class="flex items-center gap-1 sm:gap-2 shrink-0">
+        <span class="pill bg-emerald-100 text-emerald-700 hidden sm:inline-flex">● En ligne</span>
+        <button class="btn btn-ghost text-sm" onclick="logout()"><span class="hidden sm:inline">Déconnexion</span><span class="sm:hidden">Quitter</span></button>
       </div>
     </div>
-    <div class="max-w-7xl mx-auto px-6">
-      <nav class="flex gap-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 overflow-x-auto">
+      <nav class="flex gap-5 sm:gap-6 min-w-max">
         <div class="tab active" data-tab="annonces" onclick="switchTab('annonces')">Annonces</div>
         <div class="tab" data-tab="candidats" onclick="switchTab('candidats')">Candidats</div>
         <div class="tab" data-tab="formulaire" onclick="switchTab('formulaire')">Formulaire par défaut</div>
@@ -190,29 +198,40 @@
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-6 py-8">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
     <!-- TAB: ANNONCES -->
     <section id="tab-annonces" class="tab-content">
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
           <h1 class="text-2xl font-bold">Vos annonces</h1>
           <p class="text-sm text-ink-500 mt-1">Toutes les annonces actives apparaissent automatiquement sur votre portail candidat.</p>
         </div>
-        <button class="btn btn-primary" onclick="openAnnonceModal()">+ Nouvelle annonce</button>
+        <button class="btn btn-primary shrink-0" onclick="openAnnonceModal()">+ Nouvelle annonce</button>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3 mb-5">
+        <div class="relative flex-1">
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"/></svg>
+          <input id="annonces-search" type="search" class="input pl-9" placeholder="Rechercher une annonce par titre ou adresse..." oninput="renderAnnonces()" autocomplete="off">
+        </div>
+        <select id="annonces-status-filter" class="select sm:w-48" onchange="renderAnnonces()">
+          <option value="all">Toutes les annonces</option>
+          <option value="active">Actives uniquement</option>
+          <option value="inactive">Désactivées uniquement</option>
+        </select>
       </div>
       <div id="annonces-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </section>
 
     <!-- TAB: CANDIDATS -->
     <section id="tab-candidats" class="tab-content" hidden>
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
           <h1 class="text-2xl font-bold">Candidats</h1>
           <p class="text-sm text-ink-500 mt-1">Triés par score décroissant. Le score est indicatif — vous restez décisionnaire.</p>
         </div>
         <div class="flex gap-2">
-          <select id="candidat-filter-annonce" class="select w-64" onchange="renderCandidats()">
+          <select id="candidat-filter-annonce" class="select w-full sm:w-64" onchange="renderCandidats()">
             <option value="">Toutes les annonces</option>
           </select>
         </div>
@@ -239,12 +258,12 @@
 
     <!-- TAB: FORMULAIRE PAR DÉFAUT -->
     <section id="tab-formulaire" class="tab-content" hidden>
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div>
           <h1 class="text-2xl font-bold">Formulaire par défaut</h1>
           <p class="text-sm text-ink-500 mt-1">Ce formulaire s'applique à toutes vos annonces sauf personnalisation individuelle.</p>
         </div>
-        <button class="btn btn-secondary" onclick="resetDefaultForm()">↻ Réinitialiser</button>
+        <button class="btn btn-secondary shrink-0" onclick="resetDefaultForm()">↻ Réinitialiser</button>
       </div>
       <div id="form-builder-default"></div>
     </section>
@@ -449,19 +468,19 @@
 <!-- ================ VIEW: AGENCY PORTAL (public, candidate-facing) ================ -->
 <div id="view-agency-portal" hidden class="min-h-screen bg-gradient-to-b from-brand-50/60 to-white">
   <header class="border-b border-ink-100 bg-white">
-    <div class="max-w-5xl mx-auto px-6 h-20 flex items-center">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center">
       <div data-logo></div>
     </div>
   </header>
-  <main class="max-w-5xl mx-auto px-6 py-10">
-    <div id="portal-preview-banner" hidden class="card p-3 mb-6 bg-amber-50 border-amber-200 text-sm text-amber-800 flex items-center justify-between">
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
+    <div id="portal-preview-banner" hidden class="card p-3 mb-6 bg-amber-50 border-amber-200 text-sm text-amber-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
       <span>👁 Aperçu du portail candidat — vous êtes connecté(e) en tant qu'agence.</span>
       <button class="btn btn-ghost text-xs" onclick="enterAgencyDashboard()">← Retour au tableau de bord</button>
     </div>
-    <div class="mb-8">
+    <div class="mb-6 sm:mb-8">
       <p class="text-sm text-ink-500 mb-1">Bienvenue chez</p>
-      <h1 id="portal-agency-name" class="text-3xl font-bold text-ink-900"></h1>
-      <p class="text-ink-500 mt-2">Découvrez nos biens disponibles et postulez à celui qui vous intéresse. Votre dossier est étudié individuellement par un agent.</p>
+      <h1 id="portal-agency-name" class="text-2xl sm:text-3xl font-bold text-ink-900"></h1>
+      <p class="text-sm sm:text-base text-ink-500 mt-2">Découvrez nos biens disponibles et postulez à celui qui vous intéresse. Votre dossier est étudié individuellement par un agent.</p>
     </div>
     <div id="portal-annonces-list" class="grid md:grid-cols-2 gap-5"></div>
     <div class="mt-10 text-xs text-ink-500 leading-relaxed bg-white border border-ink-100 rounded-lg p-4">
@@ -474,16 +493,16 @@
 <!-- ================ VIEW: CANDIDATE FORM ================ -->
 <div id="view-candidate" hidden class="min-h-screen bg-gradient-to-b from-brand-50 to-white">
   <header class="border-b border-ink-100 bg-white">
-    <div class="max-w-3xl mx-auto px-6 h-20 flex items-center justify-between">
-      <div data-logo></div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2">
+      <div data-logo class="shrink-0"></div>
       <div class="flex items-center gap-3">
         <button id="cand-back-to-portal" hidden class="btn btn-ghost text-xs" onclick="backToPortal()">← Autres annonces</button>
       </div>
     </div>
   </header>
-  <main class="max-w-3xl mx-auto px-6 py-10">
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
     <div id="candidate-property-header" class="card mb-6 overflow-hidden"></div>
-    <div id="candidate-form-container" class="card p-8">
+    <div id="candidate-form-container" class="card p-5 sm:p-8">
       <div class="mb-6">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-xl font-bold" id="candidate-step-title">Votre candidature</h2>
@@ -988,7 +1007,26 @@ function renderAnnonces() {
       </div>`;
     return;
   }
-  list.innerHTML = state.annonces.map(a => {
+  const searchInput = document.getElementById('annonces-search');
+  const statusSelect = document.getElementById('annonces-status-filter');
+  const q = (searchInput?.value || '').trim().toLowerCase();
+  const status = statusSelect?.value || 'all';
+  const filtered = state.annonces.filter(a => {
+    if (status === 'active' && a.active === false) return false;
+    if (status === 'inactive' && a.active !== false) return false;
+    if (!q) return true;
+    const title = (a.title || '').toLowerCase();
+    const address = (a.address || '').toLowerCase();
+    return title.includes(q) || address.includes(q);
+  });
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="md:col-span-3 card p-12 text-center">
+        <p class="text-ink-500 mb-2">Aucune annonce ne correspond à votre recherche.</p>
+        <p class="text-xs text-ink-500">Essayez un autre mot-clé ou modifiez le filtre de statut.</p>
+      </div>`;
+    return;
+  }
+  list.innerHTML = filtered.map(a => {
     const candCount = state.candidates.filter(c => c.annonceId === a.id).length;
     const photo = a.photo ? `<img src="${a.photo}" class="w-full h-32 object-cover">` : `<div class="w-full h-32 bg-ink-100 flex items-center justify-center text-ink-400 text-sm">📷 Pas de photo</div>`;
     const customBadge = a.formConfig ? `<span class="pill bg-brand-100 text-brand-700">Formulaire personnalisé</span>` : `<span class="pill bg-ink-100 text-ink-500">Formulaire par défaut</span>`;
