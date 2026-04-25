@@ -1584,8 +1584,9 @@ async function openAgencyPortal(token, previewMode = false) {
     showView('view-agency-portal');
     return;
   }
-  // Mode public : chercher l'agence par portal_token, puis ses annonces actives
-  const { data: agencyRow, error: agErr } = await sb.from('agencies')
+  // Mode public : chercher l'agence par portal_token (via vue agencies_public,
+  // qui n'expose pas email/phone/siret/address aux requêtes anonymes)
+  const { data: agencyRow, error: agErr } = await sb.from('agencies_public')
     .select('id, name, portal_token').eq('portal_token', token).maybeSingle();
   if (agErr || !agencyRow) {
     alert('Portail agence introuvable ou lien invalide.');
@@ -1669,7 +1670,8 @@ async function openCandidateForm(token, fromPortal = false) {
     if (state.defaultFormConfig && state.agency && state.agency.id === a.agencyId) {
       formConfig = state.defaultFormConfig;
     } else {
-      const { data: agRow } = await sb.from('agencies').select('default_form_config').eq('id', a.agencyId).maybeSingle();
+      // Lecture via la vue publique : default_form_config est non sensible
+      const { data: agRow } = await sb.from('agencies_public').select('default_form_config').eq('id', a.agencyId).maybeSingle();
       formConfig = (agRow && agRow.default_form_config) || buildDefaultFormConfig();
     }
   }
